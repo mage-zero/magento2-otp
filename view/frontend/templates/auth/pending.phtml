@@ -1,0 +1,45 @@
+<?php
+/** @var \MageZero\Otp\Block\Pending $block */
+?>
+<div class="mz-otp mz-otp-pending">
+    <h1><?= $block->escapeHtml(__('Check your email inbox for a login code')) ?></h1>
+    <p><?= $block->escapeHtml(__('We sent a login approval email. Open the link in that email to continue.')) ?></p>
+    <p><?= $block->escapeHtml(__('This page will automatically continue once the approval link is opened.')) ?></p>
+</div>
+<script>
+(function () {
+    var statusUrl = <?= /* @noEscape */ json_encode($block->getStatusUrl()) ?>;
+    var pollInterval = <?= /* @noEscape */ (int)$block->getPollIntervalMs() ?>;
+
+    function redirect(url) {
+        if (url) {
+            window.location.assign(url);
+        }
+    }
+
+    function poll() {
+        fetch(statusUrl, {
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        }).then(function (response) {
+            return response.json();
+        }).then(function (payload) {
+            if (!payload || !payload.state) {
+                return;
+            }
+            if (payload.state === 'approved') {
+                redirect(payload.redirect);
+                return;
+            }
+            if (payload.state === 'failed' || payload.state === 'missing') {
+                redirect(payload.redirect);
+            }
+        }).catch(function () {
+            // Keep polling even if one request fails.
+        });
+    }
+
+    poll();
+    window.setInterval(poll, pollInterval);
+})();
+</script>

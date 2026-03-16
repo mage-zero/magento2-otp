@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magezero" translate="label" sortOrder="500">
+            <label>MageZero</label>
+        </tab>
+
+        <section id="mz_otp" translate="label" type="text" sortOrder="910" showInDefault="1" showInWebsite="1" showInStore="0">
+            <tab>magezero</tab>
+            <label>Customer Login OTP</label>
+            <resource>MageZero_Otp::config</resource>
+
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable OTP Verification</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When enabled, customer login and registration auto-login require email approval and OTP code entry.</comment>
+                </field>
+                <field id="challenge_ttl_minutes" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Challenge Expiry (minutes)</label>
+                    <comment>How long an approval link and OTP code remain valid.</comment>
+                    <validate>required-entry validate-number validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="max_attempts" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Maximum OTP Attempts</label>
+                    <comment>Maximum number of server-validated OTP submissions per challenge.</comment>
+                    <validate>required-entry validate-number validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="poll_interval_ms" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Pending Page Poll Interval (ms)</label>
+                    <comment>How often the waiting page checks whether the email link has been approved.</comment>
+                    <validate>required-entry validate-number validate-digits validate-greater-than-zero</validate>
+                </field>
+            </group>
+
+            <group id="email" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Email</label>
+                <field id="identity" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <comment>Sender identity used for OTP emails.</comment>
+                </field>
+                <field id="template" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <comment>Select the template used for the login approval email.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

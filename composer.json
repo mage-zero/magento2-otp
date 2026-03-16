@@ -1,0 +1,30 @@
+{
+  "name": "magezero/magento2-otp",
+  "description": "Magento 2 customer login OTP approval flow for MageZero",
+  "type": "magento2-module",
+  "license": [
+    "proprietary"
+  ],
+  "version": "1.0.0",
+  "require": {
+    "php": "^7.4 || ^8.0 || ^8.1 || ^8.2 || ^8.3 || ^8.4",
+    "magento/framework": "^103.0",
+    "magento/module-customer": "^103.0",
+    "magento/module-email": "^101.0"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "MageZero\\Otp\\": ""
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MageZero\\Otp\\Test\\": "Test/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

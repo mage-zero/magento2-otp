@@ -1,0 +1,24 @@
+<?php
+/** @var \MageZero\Otp\Block\Verify $block */
+?>
+<div class="mz-otp mz-otp-verify">
+    <h1><?= $block->escapeHtml(__('Enter your login code')) ?></h1>
+    <p><?= $block->escapeHtml(__('Open the browser where you clicked the email approval link and enter the code shown there.')) ?></p>
+
+    <form action="<?= $block->escapeUrl($block->getSubmitUrl()) ?>" method="post" autocomplete="off">
+        <input type="hidden" name="form_key" value="<?= $block->escapeHtmlAttr($block->getFormKey()) ?>" />
+
+        <label for="mz-otp-code"><?= $block->escapeHtml(__('Login code')) ?></label>
+        <input id="mz-otp-code"
+               type="text"
+               name="otp_code"
+               inputmode="numeric"
+               pattern="[0-9]*"
+               maxlength="6"
+               required="required" />
+
+        <button type="submit" class="action primary">
+            <span><?= $block->escapeHtml(__('Verify and Sign In')) ?></span>
+        </button>
+    </form>
+</div>

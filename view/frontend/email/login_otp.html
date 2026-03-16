@@ -1,0 +1,20 @@
+<!--@subject {{trans "Your login approval link"}} @-->
+<!--@vars {
+"var customer_name":"Customer Name",
+"var approval_url":"Approval URL",
+"var expires_in_minutes":"Token TTL in minutes",
+"var store_name":"Store Name"
+} @-->
+<p>{{trans "Hello %name," name=$customer_name}}</p>
+<p>
+    {{trans "A login request was received for your account."}}
+    {{trans "To continue, click the approval link below:"}}
+</p>
+<p>
+    <a href="{{var approval_url}}">{{trans "Approve Login"}}</a>
+</p>
+<p>
+    {{trans "This link expires in %minutes minutes." minutes=$expires_in_minutes}}
+</p>
+<p>{{trans "If this wasn't you, you can ignore this email."}}</p>
+<p>{{trans "Thanks,"}} {{var store_name}}</p>

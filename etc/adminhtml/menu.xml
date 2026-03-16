@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="MageZero_Otp::otp_settings"
+             title="Customer Login OTP"
+             module="MageZero_Otp"
+             sortOrder="910"
+             parent="Magento_Backend::stores"
+             action="adminhtml/system_config/edit/section/mz_otp"
+             resource="MageZero_Otp::config"/>
+    </menu>
+</config>

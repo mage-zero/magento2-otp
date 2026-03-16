@@ -1,0 +1,14 @@
+<?php
+/** @var \MageZero\Otp\Block\Approve $block */
+?>
+<div class="mz-otp mz-otp-approve">
+    <?php if ($block->isSuccessfulApproval()): ?>
+        <h1><?= $block->escapeHtml(__('Login approved')) ?></h1>
+        <p><?= $block->escapeHtml(__('Enter this code in your original browser tab to complete sign in:')) ?></p>
+        <p><strong><?= $block->escapeHtml($block->getOtpCode()) ?></strong></p>
+        <p><?= $block->escapeHtml(__('This code expires shortly and can only be used a limited number of times.')) ?></p>
+    <?php else: ?>
+        <h1><?= $block->escapeHtml(__('This login link is no longer valid')) ?></h1>
+        <p><?= $block->escapeHtml($block->getFailureMessage()) ?></p>
+    <?php endif; ?>
+</div>

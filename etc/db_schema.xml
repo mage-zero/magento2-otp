@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="mz_customer_otp_challenge" resource="default" engine="innodb" comment="MageZero Customer OTP Challenge">
+        <column xsi:type="int" name="entity_id" nullable="false" identity="true" unsigned="true" comment="Entity ID"/>
+        <column xsi:type="int" name="customer_id" nullable="false" unsigned="true" comment="Customer ID"/>
+        <column xsi:type="varchar" name="customer_email" nullable="false" length="255" comment="Customer Email"/>
+        <column xsi:type="varchar" name="session_id" nullable="false" length="128" comment="Session ID"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="32" default="pending" comment="Challenge Status"/>
+        <column xsi:type="varchar" name="otp_code_hash" nullable="false" length="255" comment="OTP Code Hash"/>
+        <column xsi:type="text" name="otp_code_encrypted" nullable="false" comment="Encrypted OTP Code"/>
+        <column xsi:type="varchar" name="email_token_hash" nullable="false" length="64" comment="Email Token Hash"/>
+        <column xsi:type="smallint" name="attempts" nullable="false" unsigned="true" default="0" comment="Attempt Counter"/>
+        <column xsi:type="smallint" name="max_attempts" nullable="false" unsigned="true" default="3" comment="Maximum Attempts"/>
+        <column xsi:type="timestamp" name="approved_at" nullable="true" comment="Approved At"/>
+        <column xsi:type="timestamp" name="expires_at" nullable="false" comment="Expires At"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="MZ_CUSTOMER_OTP_CHALLENGE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID"
+                    table="mz_customer_otp_challenge"
+                    column="customer_id"
+                    referenceTable="customer_entity"
+                    referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+
+        <index referenceId="MZ_CUSTOMER_OTP_CHALLENGE_TOKEN_HASH" indexType="btree">
+            <column name="email_token_hash"/>
+        </index>
+        <index referenceId="MZ_CUSTOMER_OTP_CHALLENGE_SESSION_ID" indexType="btree">
+            <column name="session_id"/>
+        </index>
+        <index referenceId="MZ_CUSTOMER_OTP_CHALLENGE_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+    </table>
+</schema>

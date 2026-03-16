@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mz_otp>
+            <general>
+                <enabled>1</enabled>
+                <challenge_ttl_minutes>10</challenge_ttl_minutes>
+                <max_attempts>3</max_attempts>
+                <poll_interval_ms>2000</poll_interval_ms>
+            </general>
+            <email>
+                <identity>general</identity>
+                <template>mz_customer_login_otp_request</template>
+            </email>
+        </mz_otp>
+    </default>
+</config>
