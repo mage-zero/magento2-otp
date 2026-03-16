@@ -145,18 +145,27 @@ class CreatePostPluginTest extends TestCase
      */
     private function createCustomerSessionMock()
     {
+        $methods = ['isLoggedIn', 'getCustomerDataObject', 'getSessionId', 'logout', 'setUsername'];
+        $existingMethods = [];
+        $dynamicMethods = [];
+        foreach ($methods as $methodName) {
+            if (method_exists(Session::class, $methodName)) {
+                $existingMethods[] = $methodName;
+                continue;
+            }
+
+            $dynamicMethods[] = $methodName;
+        }
+
         $builder = $this->getMockBuilder(Session::class)
             ->disableOriginalConstructor();
 
-        $methodsToAdd = [];
-        foreach (['isLoggedIn', 'getCustomerDataObject', 'getSessionId', 'logout', 'setUsername'] as $methodName) {
-            if (!method_exists(Session::class, $methodName)) {
-                $methodsToAdd[] = $methodName;
-            }
+        if ($existingMethods !== []) {
+            $builder->onlyMethods($existingMethods);
         }
 
-        if ($methodsToAdd !== []) {
-            $builder->addMethods($methodsToAdd);
+        if ($dynamicMethods !== []) {
+            $builder->addMethods($dynamicMethods);
         }
 
         return $builder->getMock();
