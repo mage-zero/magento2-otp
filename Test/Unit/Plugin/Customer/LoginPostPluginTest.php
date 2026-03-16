@@ -231,8 +231,15 @@ class LoginPostPluginTest extends TestCase
         $builder = $this->getMockBuilder(Session::class)
             ->disableOriginalConstructor();
 
-        if (!method_exists(Session::class, 'setUsername')) {
-            $builder->addMethods(['setUsername']);
+        $methodsToAdd = [];
+        foreach (['isLoggedIn', 'getSessionId', 'setUsername'] as $methodName) {
+            if (!method_exists(Session::class, $methodName)) {
+                $methodsToAdd[] = $methodName;
+            }
+        }
+
+        if ($methodsToAdd !== []) {
+            $builder->addMethods($methodsToAdd);
         }
 
         return $builder->getMock();
