@@ -132,8 +132,8 @@ class LoginPostPluginTest extends TestCase
             ->with('customer@example.com', 'secret')
             ->willReturn($customer);
 
-        $customer->expects($this->once())->method('getId')->willReturn(42);
-        $customer->expects($this->once())->method('getStoreId')->willReturn(1);
+        $customer->expects($this->exactly(2))->method('getId')->willReturn(42);
+        $customer->expects($this->exactly(2))->method('getStoreId')->willReturn(1);
         $customer->expects($this->once())->method('getEmail')->willReturn('customer@example.com');
 
         $this->sessionContext->expects($this->once())->method('getChallengeId')->willReturn(null);
@@ -206,7 +206,7 @@ class LoginPostPluginTest extends TestCase
         $challenge->expects($this->once())->method('getCustomerId')->willReturn(42);
         $this->challengeService->expects($this->once())->method('hasExpired')->with($challenge)->willReturn(false);
         $this->challengeService->expects($this->once())->method('hasAttemptsRemaining')->with($challenge)->willReturn(true);
-        $challenge->expects($this->once())->method('getStatus')->willReturn(Challenge::STATUS_APPROVED);
+        $challenge->expects($this->exactly(2))->method('getStatus')->willReturn(Challenge::STATUS_APPROVED);
 
         $this->emailSender->expects($this->never())->method('send');
         $this->challengeService->expects($this->never())->method('createChallenge');

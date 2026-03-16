@@ -93,12 +93,12 @@ class CreatePostPluginTest extends TestCase
         $redirect = $this->createMock(Redirect::class);
 
         $this->config->expects($this->once())->method('isEnabled')->willReturn(true);
-        $this->customerSession->expects($this->exactly(2))->method('isLoggedIn')->willReturnOnConsecutiveCalls(true, true);
+        $this->customerSession->expects($this->once())->method('isLoggedIn')->willReturn(true);
 
         $this->customerSession->expects($this->once())->method('getCustomerDataObject')->willReturn($customer);
         $customer->expects($this->once())->method('getId')->willReturn(50);
         $customer->expects($this->once())->method('getEmail')->willReturn('new@example.com');
-        $customer->expects($this->once())->method('getStoreId')->willReturn(1);
+        $customer->expects($this->exactly(2))->method('getStoreId')->willReturn(1);
 
         $this->sessionContext->expects($this->once())->method('getChallengeId')->willReturn(null);
         $this->customerSession->expects($this->once())->method('getSessionId')->willReturn('session-reg-1');
