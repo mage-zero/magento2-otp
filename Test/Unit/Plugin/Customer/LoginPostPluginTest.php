@@ -16,7 +16,7 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Controller\Account\LoginPost;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Model\Url as CustomerUrl;
-use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Data\Form\FormKey\Validator as FormKeyValidator;
@@ -239,18 +239,15 @@ class LoginPostPluginTest extends TestCase
     }
 
     /**
-     * isPost is not declared on RequestInterface in older Magento versions.
+     * Use concrete HTTP request so isPost/getPost are concrete methods across supported Magento versions.
      *
-     * @return RequestInterface&MockObject
+     * @return Http&MockObject
      */
     private function createRequestMock()
     {
-        $builder = $this->getMockBuilder(RequestInterface::class);
-
-        if (!method_exists(RequestInterface::class, 'isPost')) {
-            $builder->addMethods(['isPost']);
-        }
-
-        return $builder->getMock();
+        return $this->getMockBuilder(Http::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['isPost', 'getPost'])
+            ->getMock();
     }
 }
