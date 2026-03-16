@@ -68,7 +68,7 @@ class LoginPostPluginTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->customerSession = $this->createMock(Session::class);
+        $this->customerSession = $this->createCustomerSessionMock();
         $this->formKeyValidator = $this->createMock(FormKeyValidator::class);
         $this->accountManagement = $this->createMock(AccountManagementInterface::class);
         $this->redirectFactory = $this->createMock(RedirectFactory::class);
@@ -112,7 +112,7 @@ class LoginPostPluginTest extends TestCase
     public function testSuccessfulPasswordStartsChallengeAndRedirectsPending(): void
     {
         $subject = $this->createMock(LoginPost::class);
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createRequestMock();
         $redirect = $this->createMock(Redirect::class);
         $customer = $this->createMock(CustomerInterface::class);
 
@@ -177,7 +177,7 @@ class LoginPostPluginTest extends TestCase
     public function testApprovedChallengeSkipsEmailAndRedirectsVerify(): void
     {
         $subject = $this->createMock(LoginPost::class);
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createRequestMock();
         $redirect = $this->createMock(Redirect::class);
         $customer = $this->createMock(CustomerInterface::class);
         $challenge = $this->createMock(Challenge::class);
@@ -219,5 +219,38 @@ class LoginPostPluginTest extends TestCase
         });
 
         $this->assertSame($redirect, $result);
+    }
+
+    /**
+     * setUsername is handled dynamically in some Magento versions, so expose it on the mock when needed.
+     *
+     * @return Session&MockObject
+     */
+    private function createCustomerSessionMock()
+    {
+        $builder = $this->getMockBuilder(Session::class)
+            ->disableOriginalConstructor();
+
+        if (!method_exists(Session::class, 'setUsername')) {
+            $builder->addMethods(['setUsername']);
+        }
+
+        return $builder->getMock();
+    }
+
+    /**
+     * isPost is not declared on RequestInterface in older Magento versions.
+     *
+     * @return RequestInterface&MockObject
+     */
+    private function createRequestMock()
+    {
+        $builder = $this->getMockBuilder(RequestInterface::class);
+
+        if (!method_exists(RequestInterface::class, 'isPost')) {
+            $builder->addMethods(['isPost']);
+        }
+
+        return $builder->getMock();
     }
 }

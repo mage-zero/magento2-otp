@@ -54,7 +54,7 @@ class CreatePostPluginTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->customerSession = $this->createMock(Session::class);
+        $this->customerSession = $this->createCustomerSessionMock();
         $this->config = $this->createMock(Config::class);
         $this->challengeService = $this->createMock(ChallengeService::class);
         $this->sessionContext = $this->createMock(SessionContext::class);
@@ -136,5 +136,22 @@ class CreatePostPluginTest extends TestCase
         $result = $this->plugin->afterExecute($subject, $originalResult);
 
         $this->assertSame($redirect, $result);
+    }
+
+    /**
+     * setUsername is handled dynamically in some Magento versions, so expose it on the mock when needed.
+     *
+     * @return Session&MockObject
+     */
+    private function createCustomerSessionMock()
+    {
+        $builder = $this->getMockBuilder(Session::class)
+            ->disableOriginalConstructor();
+
+        if (!method_exists(Session::class, 'setUsername')) {
+            $builder->addMethods(['setUsername']);
+        }
+
+        return $builder->getMock();
     }
 }
