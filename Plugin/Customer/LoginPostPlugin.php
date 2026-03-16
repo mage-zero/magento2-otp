@@ -22,6 +22,9 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\UrlInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class LoginPostPlugin
 {
     /** @var Session */
@@ -57,6 +60,9 @@ class LoginPostPlugin
     /** @var Config */
     private $config;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         Session $customerSession,
         FormKeyValidator $formKeyValidator,
@@ -83,6 +89,10 @@ class LoginPostPlugin
         $this->config = $config;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     public function aroundExecute(LoginPost $subject, callable $proceed)
     {
         if (!$this->config->isEnabled()) {

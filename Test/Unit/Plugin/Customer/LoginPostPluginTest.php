@@ -25,6 +25,9 @@ use Magento\Framework\UrlInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class LoginPostPluginTest extends TestCase
 {
     /** @var Session&MockObject */

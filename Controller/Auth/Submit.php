@@ -40,6 +40,9 @@ class Submit extends AbstractSessionChallengeAction implements HttpPostActionInt
     /** @var CookieMetadataFactory */
     private $cookieMetadataFactory;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         Context $context,
         SessionContext $sessionContext,
@@ -62,6 +65,9 @@ class Submit extends AbstractSessionChallengeAction implements HttpPostActionInt
         $this->cookieMetadataFactory = $cookieMetadataFactory;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function execute()
     {
         if (!$this->getRequest()->isPost() || !$this->formKeyValidator->validate($this->getRequest())) {

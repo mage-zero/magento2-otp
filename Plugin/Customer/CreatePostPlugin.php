@@ -68,6 +68,8 @@ class CreatePostPlugin
      * @param CreatePost $subject
      * @param mixed $result
      * @return mixed
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterExecute(CreatePost $subject, $result)
     {
